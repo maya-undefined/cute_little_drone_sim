@@ -2,20 +2,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load trajectory data
-data = np.loadtxt("drone_trajectory.csv", delimiter=",")
+drone_trajectory = np.loadtxt("drone_trajectory.csv", delimiter=",")
 
-# Generate waypoints for reference
 t = np.linspace(0, 2 * np.pi, 20)
-waypoints = np.vstack((t * 2, np.sin(t) * 5)).T  # (x, y) sine wave trajectory
+# evenly space along 2 * pi again
+waypoints = np.vstack((t * 2, np.sin(t) * 5, np.sin(t) * 3 + 10)).T  
+# (x, y, z) sine wave trajectory
+# could probably load these waypoints if they were saved from sim.cpp
 
-# Plot the waypoints and drone's actual flight path
-plt.figure(figsize=(10, 5))
-plt.plot(waypoints[:, 0], waypoints[:, 1], 'ro-', label="Waypoints")  # Red circles for waypoints
-plt.plot(data[:, 0], data[:, 1], 'b-', label="Drone Path")  # Blue line for trajectory
+fig = plt.figure(figsize=(10, 5))
+ax = fig.add_subplot(111, projection='3d')
 
-plt.xlabel("X Position")
-plt.ylabel("Y Position")
-plt.title("Drone Path Following Non-Linear Waypoints")
-plt.legend()
-plt.grid()
+ax.plot(waypoints[:, 0], waypoints[:, 1], waypoints[:, 2], 'ro-', label="Waypoints") #red
+ax.plot(drone_trajectory[:, 0], drone_trajectory[:, 1], drone_trajectory[:, 2], 'b-', label="Drone Path")  #blue
+
+ax.set_xlabel("X Position")
+ax.set_ylabel("Y Position")
+ax.set_zlabel("Z Position")
+ax.set_title("drone_trajectory")
+ax.legend()
 plt.show()
