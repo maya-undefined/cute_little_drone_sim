@@ -110,6 +110,7 @@ int main() {
 
     for (int step = 0; step < num_steps && waypoint_index < waypoints.size(); ++step) {
 	        Arr target = waypoints[waypoint_index];
+	        Arr position = drone.pos();
 	        drone.update(target, dt);
 
 	        trajectory.push_back(drone.pos());
